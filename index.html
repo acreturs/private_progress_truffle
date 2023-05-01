@@ -12,6 +12,7 @@
     <script>
       const myButton = document.getElementById("myButton");
       myButton.addEventListener("click", async () => {
+        console.log("geklickt");
         const response = await fetch("/requestURL");
         const data = await response.json();
         console.log(data); //just shows the entire response (json)
