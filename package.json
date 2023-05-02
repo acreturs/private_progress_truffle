@@ -3,5 +3,23 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "openai": "^3.2.1"
-  }
+  },
+  "name": "private_progress_truffle",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acreturs/private_progress_truffle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acreturs/private_progress_truffle/issues"
+  },
+  "homepage": "https://github.com/acreturs/private_progress_truffle#readme",
+  "description": ""
 }

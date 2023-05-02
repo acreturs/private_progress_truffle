@@ -34,8 +34,7 @@ async function openAIRequest() {
 
   const res = await createConfiguration();
   const openai = new OpenAIApi(res);
-  const readme = await convertReadMe(); //here something wrong with the await -> ma fragen
-  console.log("readme " + readme);
+  const readme = await convertReadMe(); //here something wrong with the await 
   const question =
     "The following Text describes a programming Project that is currently in development. Sum up the important information about this project described in the text. Specifically," +
     "I would like to know how this text describes the goals and objectives of the project, what problems or issues the project is trying to address," +
