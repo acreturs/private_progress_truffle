@@ -3,6 +3,8 @@ const { Configuration, OpenAIApi } = require("openai");
 const fs = require("fs");
 
 const express = require("express");
+const { resolve } = require("path");
+const { rejects } = require("assert");
 const app = express();
 
 async function createConfiguration() {
@@ -14,16 +16,19 @@ async function createConfiguration() {
 }
 
 async function convertReadMe() {
-  fs.readFile("test.md", "utf8", function (err, data) {
-    if (err) {
-      console.error(err);
-      return;
-    }
+  const promise = new Promise((klappt, error) => {
+    fs.readFile("test.md", "utf8", function (err, data) {
+      if (err) {
+        console.error(err);
+        return;
+      }
 
-    const fileContents = data.toString();
-    console.log(fileContents);
-    return fileContents;
-  });
+      const readme = data.toString();
+      klappt(readme);
+    }); //alles noch im readfile
+  }); //diese Klammer schließt das promise
+
+  return promise;
 }
 
 /*
@@ -34,14 +39,14 @@ async function openAIRequest() {
 
   const res = await createConfiguration();
   const openai = new OpenAIApi(res);
-  const readme = await convertReadMe(); //here something wrong with the await 
+  const readme = await convertReadMe(); //here something wrong with the await
   const question =
     "The following Text describes a programming Project that is currently in development. Sum up the important information about this project described in the text. Specifically," +
     "I would like to know how this text describes the goals and objectives of the project, what problems or issues the project is trying to address," +
     "and how the project is going to tackle them. Additionally, could you provide some general information about the Project. Please aim to write a response that is between 200 to 250 words. README: " +
     readme;
   console.log(question);
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 2; i++) {
     const completion = openai.createCompletion({
       model: "text-davinci-002",
       prompt: question,
