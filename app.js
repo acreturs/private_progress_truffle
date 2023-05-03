@@ -9,7 +9,6 @@ const app = express();
 const axios = require("axios");
 const cheerio = require("cheerio");
 const showdown = require("showdown");
-//const { data } = require("cheerio/lib/api/attributes");
 const readline = require("readline").createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -78,8 +77,6 @@ async function openAIRequestTurbo(readME) {
   const data = await response.json();
   const content = data.choices[0].message.content;
   console.log(content);
-
-  // return content;
 }
 
 /* This function is not needed as long as we use turbo
@@ -110,22 +107,12 @@ currently just used for organizational purposes.
 */
 //app.use("/requestURL", openAIRequestTurbo);
 
-app.use("/requestDay", (req, res) => {
-  day = callDay();
-  res.send(day);
-});
-
-app.use("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
-});
-
+app.use("/requestDay", callDay);
 app.use("/requestWeek", callWeek);
 app.use("/requestMonth", callMonth);
 
 function callDay() {
-  console.log("main wird gecalled");
   main(0);
-  return "das klappt";
 }
 
 function callWeek() {
@@ -196,7 +183,7 @@ async function fetchRepos(userInput) {
     });
     return trendingSplit;
   } catch (error) {
-    console.error(error);
+    console.error("hier passt alles");
   }
 }
 /**  This function imports the ReadMe.md file for a repository (if it can be located)
@@ -250,7 +237,7 @@ async function getRepoInfo(query, authToken) {
     const output = response.data.data.repository;
     return output;
   } catch (error) {
-    console.log(error);
+    console.log("klappt nicht");
     return null;
   }
 }
@@ -259,11 +246,9 @@ async function main(number) {
   // Choose whether to scrape daily, weekly or monthly information
   // const userInput = await getUserInput();
   //readline.close();
-  //let content = "";
-  // let outputMax = "";
   const trendingSplit = await fetchRepos(number);
   // your personal GitHub authToken
-  const authToken = `Bearer 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`;
+  const authToken = `Bearer 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`;
   // for (let i = 0; i < trendingSplit.length / 2; i++) {
   for (let i = 0; i < 1; i++) {
     const owner = trendingSplit[2 * i];
@@ -285,21 +270,20 @@ async function main(number) {
         }
       }
     }`;
+
     const output = await getRepoInfo(query, authToken);
     console.log(output);
-    //outputMax = output;
-    // // check if the repo has more than a 1k stars
-    const stars = output.stargazers.totalCount;
-    if (stars < 1000) {
-      console.log("Wouldn't provide this entity to the frontend");
-    }
+    // check if the repo has more than a 1k stars
+    // const stars = output.stargazers.totalCount;
+    //if (stars < 1000) {
+    // console.log("Wouldn't provide this entity to the frontend");
+    //}
     const readme = await getReadme(owner, name);
     if (readme != null) {
       //console.log(readme);
-      content = openAIRequestTurbo(readme);
-      //     content = JSON.parse(`{"name":${content}}`);
+      openAIRequestTurbo(readme);
     }
   }
-
-  //return outputMax + "\n\n" + content;
+  console.log("wurde returned");
+  return "test string zum returnen ";
 }
