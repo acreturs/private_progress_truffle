@@ -8,12 +8,30 @@
   </head>
   <body>
     <h1>We only care about the button</h1>
-    <button id="myButton">the question button</button>
+    <button id="myButtonDay">A trending Repo from today</button>
+    <button id="myButtonWeek">A trending Repo from this week</button>
+    <button id="myButtonMonth">A trending Repo from this month</button>
     <script>
-      const myButton = document.getElementById("myButton");
-      myButton.addEventListener("click", async () => {
+      const myButtonDay = document.getElementById("myButtonDay");
+      myButtonDay.addEventListener("click", async () => {
         console.log("geklickt");
-        const response = await fetch("/requestURL");
+        const response = await fetch("/requestDay");
+        // const data = await response.json();
+        console.log("erreicht?");
+        console.log(response); //just shows the entire response (json)
+        // console.log(data);
+      });
+      const myButtonWeek = document.getElementById("myButtonWeek");
+      myButtonWeek.addEventListener("click", async () => {
+        // console.log("geklickt");
+        const response = await fetch("/requestWeek");
+        const data = await response.json();
+        console.log(response); //just shows the entire response (json)
+      });
+      const myButtonMonth = document.getElementById("myButtonMonth");
+      myButtonMonth.addEventListener("click", async () => {
+        // console.log("geklickt");
+        const response = await fetch("/requestMonth");
         const data = await response.json();
         console.log(data); //just shows the entire response (json)
       });
